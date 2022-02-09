@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { todoListState } from './atoms';
-import {} from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 function TodoItemCreator() {
   const [inputValue, setInputValue] = useState('');
+  const setTodoItem = useSetRecoilState(todoListState);
 
   const onchange = (e) => {
     setInputValue(e.target.value);
@@ -11,6 +12,16 @@ function TodoItemCreator() {
 
   const onclick = () => {
     console.log(inputValue);
+    setTodoItem((oldTodo) => {
+      return [
+        ...oldTodo,
+        {
+          id: oldTodo.length + 1,
+          desc: inputValue,
+        },
+      ];
+    });
+    setInputValue('');
   };
 
   return (
